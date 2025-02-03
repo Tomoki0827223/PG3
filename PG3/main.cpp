@@ -1,56 +1,49 @@
 #include <stdio.h>
+#include <iostream>
+#include <list>
 
-class Shape
-{
-public:
-	virtual void Size() = 0;
-	virtual void Draw() = 0;
+using namespace std;
 
-protected:
-	float size;
-	float radius;
-};
+int main() {
+    // Rèü‰w–¼ƒŠƒXƒgi1970”Nj
+    list<const char*> rosen = {
+		"“c’[‰w", "“ú•é—¢‰w", "éò’J‰w", "ã–ì‰w", "Œä“k’¬‰w",
+        "H—tŒ´‰w", "_“c‰w", "“Œ‹‰w", "—LŠy’¬", "V‹´‰w",
+        "•l¼’¬‰w", "“c’¬‰w", "•iì‰w", "‘åè‰w", "ŒÜ”½“c‰w",
+        "–Ú•‰w", "Œb”äõ‰w", "a’J‰w", "Œ´h‰w", "‘ãX–Ø‰w",
+        "Vh‰w", "V‘å‹v•Û‰w", "‚“c”nê‰w", "–Ú”’‰w", "’r‘Ü‰w",
+        "‘å’Ë‰w", "‘ƒŠ›‰w", "‹î‰w"
+    };
 
-class Circle : public Shape
-{
-public:
-	void Size() override;
-	void Draw() override { printf("–ÊÏ %f\n", size); };
-};
+    // 1971”N: ¼“ú•é—¢‰w‚ğ’Ç
+    auto itr = rosen.begin();
+    while (*itr != "“ú•é—¢‰w") ++itr;
+    rosen.insert(itr, "¼“ú•é—¢‰w");
 
-class Square : public Shape
-{
-public:
-	void Size() override;
-	void Draw() override { printf("–ÊÏ %f\n", size); };
-};
+    // 2020”N: ‚—ÖƒQ[ƒgƒEƒFƒC‰w‚ğ’Ç
+    itr = rosen.begin();
+    while (*itr != "•iì‰w") ++itr;
+    rosen.insert(itr, "‚—ÖƒQ[ƒgƒEƒFƒC‰w");
 
-void Circle::Size()
-{
-	radius = 5.0f;
-	printf("‰~‚Ì”¼Œa %f\n", radius);
-	size = radius * radius * 3.14f;
-}
+    // 1970”N‚Ì‰wˆê——‚ğ•\¦
+    cout << "1970‚Ì‰w:" << endl;
+    for (const auto& station : rosen) {
+        if (station == "¼“ú•é—¢‰w" || station == "‚—ÖƒQ[ƒgƒEƒFƒC‰w") continue; // 1970”N‚É‚Í‘¶İ‚µ‚È‚¢‰w‚ğƒXƒLƒbƒv
+        cout << station << endl;
+    }
 
-void Square::Size()
-{
-	radius = 5.0f;
-	printf("‹éŒ`‚Ì”¼Œa %f\n", radius);
-	size = radius * 2.0f * radius * 2.0f;
-}
+    // 2019”N‚Ì‰wˆê——‚ğ•\¦
+    cout << "\n2019‚Ì‰w:" << endl;
+    for (const auto& station : rosen) {
+        if (station == "‚—ÖƒQ[ƒgƒEƒFƒC") continue; // 2019”N‚É‚Í‘¶İ‚µ‚È‚¢‰w‚ğƒXƒLƒbƒv
+        cout << station << endl;
+    }
 
-int main(void) {
+    // 2022”N‚Ì‰wˆê——‚ğ•\¦
+    cout << "\n2022‚Ì‰w:" << endl;
+    for (const auto& station : rosen) {
+        cout << station << endl;
+    }
 
-	Shape* ishape[2] = { new Circle(), new Square() };
-
-	ishape[0]->Size();
-	ishape[1]->Size();
-
-	ishape[0]->Draw();
-	ishape[1]->Draw();
-
-	delete ishape[0];
-	delete ishape[1];
-
-	return 0;
+    return 0;
 }
