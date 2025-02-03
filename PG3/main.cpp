@@ -12,6 +12,7 @@ public:
 	// メンバ関数ポインタのテーブル
 	static void (MyClass::* table[])();
 
+
 private:
 	// メンバ関数ポインタのテーブルを参照するインデックス
 	int index = 0;
