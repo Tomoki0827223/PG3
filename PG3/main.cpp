@@ -1,63 +1,43 @@
+#include <stdio.h>
 #include <iostream>
-using namespace std;
 
-// 自作クラス
-class MyClass {
+// クラステンプレートの定義
+template <typename Type, typename Type2>
+class TemplateClass {
 public:
-	void update();
-	void state1();
-	void state2();
-	void state3();
-
-	// メンバ関数ポインタのテーブル
-	static void (MyClass::* table[])();
-
-private:
-	// メンバ関数ポインタのテーブルを参照するインデックス
-	int index = 0;
-};
-
-void MyClass::state1() {
-	cout << "敵の接近！" << endl;
-}
-
-void MyClass::state2() {
-	cout << "敵の攻撃！" << endl;
-}
-
-void MyClass::state3() {
-	cout << "敵の離脱！" << endl;
-}
-
-void MyClass::update() {
-	// 関数ポインタのテーブルから関数を実行
-	(this->*table[index])();
-
-	int input;
-	cout << "次の状態に進むには0を入力してください: ";
-	cin >> input;
-
-	if (input == 0) {
-		// 敵の状態（関数ポインタ配列のインデックス）を+1
-		// インデックスが配列の最後の要素ならゼロを入れる
-		index = (index + 1) % 3;
+	// コンストラクタ（メンバ変数Number1, Number2を引数number1, number2で初期化）
+	TemplateClass(Type number1, Type2 number2) :
+		Number1(number1), Number2(number2) {
 	}
-	// ゼロ以外の入力ならインデックスを更新せずに同じ行動を繰り返す
-}
 
-// static宣言したメンバ関数ポインタテーブルの実体
-void (MyClass::* MyClass::table[])() = {
-  &MyClass::state1,	// インデックス番号0
-  &MyClass::state2,	// インデックス番号1
-  &MyClass::state3	// インデックス番号2
+	Type Min() {
+		if (Number1 < Number2) {
+			return static_cast<Type>(Number1);
+		}
+		else {
+			return static_cast<Type2>(Number2);
+		}
+	}
+private:
+	Type Number1;
+	Type2 Number2;
 };
 
 int main() {
-	MyClass my;
+	// クラス名から型を考えて<>の中を定義
+	TemplateClass<int, float> intFloatTemplate(10, 50.0f);
+	TemplateClass<int, double> intDoubleTemplate(80, 13.0);
+	TemplateClass<float, int> floatIntTemplate(2.0f, 9);
+	TemplateClass<float, double> floatDoubleTemplate(11.0f, 3.5);
+	TemplateClass<double, int> doubleIntTemplate(666.0, 333);
+	TemplateClass<double, float> doubleFloatTemplate(435.8, 563.5f);
 
-	while (true) {
-		my.update();
-	}
+	std::cout << "int(10) と float(50.0f) を比べて小さい数字を表す：" << intFloatTemplate.Min() << std::endl;
+	std::cout << "int(80) と double(13.0) を比べて小さい数字を表す：" << intDoubleTemplate.Min() << std::endl;
+	std::cout << "float(2.0f) と int(9) を比べて小さい数字を表す：" << floatIntTemplate.Min() << std::endl;
+	std::cout << "float(11.0f) と double(3.5) を比べて小さい数字を表す：" << floatDoubleTemplate.Min() << std::endl;
+	std::cout << "double(666.0) と int(333) を比べて小さい数字を表す：" << doubleIntTemplate.Min() << std::endl;
+	std::cout << "double(435.8) と float(563.5) を比べて小さい数字を表す：" << doubleFloatTemplate.Min() << std::endl;
 
 	return 0;
 }
