@@ -1,52 +1,56 @@
 #include <stdio.h>
 
-//親クラス「色」
-class Colors
+class Shape
 {
 public:
-	Colors(const char* a, const char* b) :name(a), mood(b) {}
-	virtual void Mood() {}
-	virtual ~Colors() {} // 仮想デストラクタ
+	virtual void Size() = 0;
+	virtual void Draw() = 0;
+
 protected:
-	const char* name;
-	const char* mood;
+	float size;
+	float radius;
 };
 
-//親の色クラスを継承した「青」クラス
-class Blue : public Colors
+class Circle : public Shape
 {
 public:
-	Blue() :Colors("Blue", "蒼き深淵の瞳") { printf("This color is %s\n", name); }
-	void Mood() { printf("%s is %s\n", name, mood); }
+	void Size() override;
+	void Draw() override { printf("面積 %f\n", size); };
 };
 
-//親の色クラスを継承した「赤」クラス
-class Red : public Colors
+class Square : public Shape
 {
 public:
-	Red() :Colors("Red", "灼眼のまなざし") { printf("This color is %s\n", name); }
-	void Mood() { printf("%s is %s\n", name, mood); }
+	void Size() override;
+	void Draw() override { printf("面積 %f\n", size); };
 };
 
-//親の色クラスを継承した「白」クラス
-class White : public Colors
+void Circle::Size()
 {
-public:
-	White() : Colors("White", "聖なる白銀") { printf("This color is %s\n", name); }
-	void Mood() { printf("%s is %s\n", name, mood); }
-};
+	radius = 5.0f;
+	printf("円の半径 %f\n", radius);
+	size = radius * radius * 3.14f;
+}
 
-int main() {
+void Square::Size()
+{
+	radius = 5.0f;
+	printf("矩形の半径 %f\n", radius);
+	size = radius * 2.0f * radius * 2.0f;
+}
 
-	Colors* colors[3] = { new Red(), new Blue(), new White() };
+int main(void) {
 
-	puts("");
+	Shape* ishape[2] = { new Circle(), new Square() };
 
-	for (int i = 0; i < 3; i++)
-		colors[i]->Mood();
+	ishape[0]->Size();
+	ishape[1]->Size();
 
-	for (int i = 0; i < 3; i++)
-		delete colors[i];
+	ishape[0]->Draw();
+	ishape[1]->Draw();
+
+	delete ishape[0];
+	delete ishape[1];
 
 	return 0;
 }
