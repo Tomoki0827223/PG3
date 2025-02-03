@@ -1,52 +1,63 @@
-#include<stdio.h>
-#include<Windows.h>
-#include <time.h>
-#include <functional>
+#include <iostream>
+using namespace std;
 
-//コールバック関数
-void DispResult(int* s, int* kye) {
-	int dice = rand() % 2;
+// 自作クラス
+class MyClass {
+public:
+	void update();
+	void state1();
+	void state2();
+	void state3();
 
-	if (dice == *kye) {
-		if (dice == 0)
-			printf("%dで丁(偶数)でした。当たり\n", dice);
-		else
-			printf("%dで半(奇数)でした。当たり\n", dice);
-	}
-	else {
-		if (dice == 1)
-			printf("%dで半(奇数)でした。はずれ\n", dice);
-		else
-			printf("%dで丁(偶数)でした。はずれ\n", dice);
-	}
+	// メンバ関数ポインタのテーブル
+	static void (MyClass::* table[])();
+
+private:
+	// メンバ関数ポインタのテーブルを参照するインデックス
+	int index = 0;
+};
+
+void MyClass::state1() {
+	cout << "敵の接近！" << endl;
 }
 
-void setTimeout(std::function<void(int*, int*)> p, int second, int kye) {
-	//コールバック関数を呼び出す
-	for (int i = 0; i < second; i++) {
-		Sleep(1000);
-		printf("%d...\n", second - i);
-	}
-
-	p(&second, &kye);
+void MyClass::state2() {
+	cout << "敵の攻撃！" << endl;
 }
+
+void MyClass::state3() {
+	cout << "敵の離脱！" << endl;
+}
+
+void MyClass::update() {
+	// 関数ポインタのテーブルから関数を実行
+	(this->*table[index])();
+
+	int input;
+	cout << "次の状態に進むには0を入力してください: ";
+	cin >> input;
+
+	if (input == 0) {
+		// 敵の状態（関数ポインタ配列のインデックス）を+1
+		// インデックスが配列の最後の要素ならゼロを入れる
+		index = (index + 1) % 3;
+	}
+	// ゼロ以外の入力ならインデックスを更新せずに同じ行動を繰り返す
+}
+
+// static宣言したメンバ関数ポインタテーブルの実体
+void (MyClass::* MyClass::table[])() = {
+  &MyClass::state1,	// インデックス番号0
+  &MyClass::state2,	// インデックス番号1
+  &MyClass::state3	// インデックス番号2
+};
 
 int main() {
-	int kye;
+	MyClass my;
 
-	srand(static_cast<unsigned int>(time(NULL)));
-	printf("丁(偶数)なら0、半(奇数)なら1を打つ\n");
-	scanf_s("%d", &kye);
-
-	if (kye == 0) {
-		puts("あなたは丁(偶数)を選びました");
+	while (true) {
+		my.update();
 	}
-	else {
-		puts("あなたは半(奇数)を選びました");
-	}
-
-	std::function<void(int*, int*)> p = [](int* s, int* kye) { DispResult(s, kye); };
-	setTimeout(p, 3, kye);
 
 	return 0;
 }
