@@ -12,6 +12,7 @@ void DispResult(int* s, int* kye) {
 			printf("%d‚Å’š(‹ô”)‚Å‚µ‚½B“–‚½‚è\n", dice);
 		else
 			printf("%d‚Å”¼(Šï”)‚Å‚µ‚½B“–‚½‚è\n", dice);
+
 	}
 	else {
 		if (dice == 1)
